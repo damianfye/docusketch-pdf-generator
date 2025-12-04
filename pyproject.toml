@@ -1,0 +1,55 @@
+[project]
+name = "docusketch-pdf-generator"
+version = "0.1.0"
+description = "DocuSketch PDF Report Generator - Streamlit app for generating PDF reports from floor plan data"
+requires-python = ">=3.10"
+authors = [
+    { name = "Damian Fye" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+keywords = ["pdf", "floor-plan", "streamlit", "weasyprint"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "streamlit>=1.28.0",
+    "weasyprint>=60.0",
+    "pydantic>=2.0.0",
+    "pandas>=2.0.0",
+    "jinja2>=3.0.0",
+    "libsass>=0.23.0",
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "pytest>=7.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest-cov>=4.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+app = "streamlit run app.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_ignores = true
