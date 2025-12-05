@@ -1,0 +1,29 @@
+// Design tokens - colors, fonts, sizes
+
+// Colors (extracted from DocuSketch reference)
+$color-primary: #61a5d8; // Blue for walls and links
+$color-boundary-wall: #61a5d8; // Blue for highlighted walls
+$color-wall-fill: #e6f1f9; // Light blue for other walls
+$color-text: #000000; // Black text throughout
+$color-text-muted: #000000; // Black (no muted)
+$color-divider: #000000; // Black divider lines
+$color-background: #ffffff;
+
+// Table colors (alternating rows)
+$color-table-row-odd: #ffffff; // White
+$color-table-row-even: #f4f3ea; // Light beige
+$color-table-total: #e2e0d3; // Darker beige for total
+$color-table-border: #000000; // Black borders
+
+// Typography
+$font-family: "Helvetica Neue", Arial, sans-serif;
+$font-size-title: 24px;
+$font-size-subtitle: 14px;
+$font-size-body: 12px;
+$font-size-small: 10px;
+
+// Page dimensions (A4) - measured proportions
+// 1/16th padding on each side
+$page-width: 210mm;
+$page-height: 297mm;
+$page-padding: 13mm; // ~1/16th of page width

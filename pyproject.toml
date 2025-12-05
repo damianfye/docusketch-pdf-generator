@@ -1,7 +1,7 @@
 [project]
 name = "docusketch-pdf-generator"
 version = "0.1.0"
-description = "DocuSketch PDF Report Generator - Streamlit app for generating PDF reports from floor plan data"
+description = "DocuSketch PDF Report Generator"
 requires-python = ">=3.10"
 authors = [
     { name = "Damian Fye" }

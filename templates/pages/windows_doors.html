@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% block content %}
+<div class="page windows-doors">
+  <!-- Main content row (grows to fill space) -->
+  <div class="page-body">
+    <div class="page-body-cell">
+      <!-- Header -->
+      <header class="page-header">
+        <div class="logo">{{ logo_svg | safe }}</div>
+        <div class="header-info">
+          <span class="header-title"
+            >{{ metadata.title }} &bull; ID: {{ metadata.document_id }}</span
+          >
+          <span class="header-address">{{ metadata.address }}</span>
+        </div>
+      </header>
+
+      <!-- Divider after header -->
+      <hr class="divider" />
+
+      <!-- Section Title -->
+      <h1 class="section-title">{{ metadata.title }}</h1>
+      <h2 class="subsection-title">{{ metadata.section_name }}</h2>
+
+      <!-- Wall Projection SVG (provided top.svg) -->
+      {% if wall_projection_svg %}
+      <section class="wall-projection">
+        {{ wall_projection_svg | safe }}
+      </section>
+      {% endif %}
+
+      <!-- Main Content: Floor Plan + Panorama -->
+      <section class="main-content">
+        <div class="floor-plan">
+          {% if floor_plan_svg %} {{ floor_plan_svg | safe }} {% endif %}
+        </div>
+        <div class="panorama">
+          {% if panorama_data_uri %}
+          <img src="{{ panorama_data_uri }}" alt="360° Panorama View" />
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- Data Table -->
+      {% if table_html %}
+      <section class="table-section">{{ table_html | safe }}</section>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Footer Section (stays at bottom) -->
+  <div class="footer-section">
+    <!-- Divider before footer -->
+    <hr class="divider" />
+
+    <!-- Navigation Footer -->
+    <footer class="page-footer">
+      <span class="nav-prev">&larr; First page</span>
+      <span class="page-number">{{ page_number }}</span>
+      <span class="nav-next">360° Player</span>
+    </footer>
+
+    <!-- Copyright -->
+    <div class="copyright">
+      {% if logo_powered_data_uri %}
+      <img
+        src="{{ logo_powered_data_uri }}"
+        alt="Powered by DocuSketch"
+        class="powered-logo"
+      />
+      {% endif %}
+      <p>
+        &copy; 2025 DocuSketch. All rights reserved. This report, including its
+        content and design, is owned by DocuSketch. "DocuSketch" is the
+        registered trademark of Immoviewer, Inc. Other names mentioned may be
+        trademarks of their respective owners. This document is provided "as
+        is," without warranties of any kind, including its accuracy.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

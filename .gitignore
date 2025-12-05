@@ -40,13 +40,20 @@ htmlcov/
 .tox/
 .nox/
 
-# Task reference files (not part of the app)
-info/
-
 # Generated files
 *.pdf
 .DS_Store
 
+# Output folder contents (keep folder via .gitkeep)
+output/*
+!output/.gitkeep
+
 # Environment variables
 .env
 .env.local
+
+# Task reference files (not part of deliverable)
+info/
+
+# Review notes (internal only)
+REVIEW_NOTES.md
