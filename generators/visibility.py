@@ -207,51 +207,6 @@ def extract_centerline(wall: WallPolygon) -> Segment:
     mid_a, mid_b = get_short_edge_midpoints(wall)
     return Segment(start=mid_a, end=mid_b)
 
-
-def _legacy_extract_centerline(wall: WallPolygon) -> Segment:
-    """Legacy centerline extraction (kept for reference)."""
-    points = wall.points
-    if len(points) != 4:
-        raise ValueError(f"Wall must have 4 points, got {len(points)}")
-    
-    edges = []
-    for i in range(4):
-        p1 = points[i]
-        p2 = points[(i + 1) % 4]
-        length = ((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2) ** 0.5
-        edges.append((i, length, p1, p2))
-    
-    # Find the two short edges (ends of wall rectangle)
-    # They are opposite edges: either (0,2) or (1,3)
-    len_01 = edges[0][1]
-    len_12 = edges[1][1]
-    
-    if len_01 < len_12:
-        # Edges 0 and 2 are short (ends), edges 1 and 3 are long (sides)
-        # Centerline goes from midpoint of edge 0 to midpoint of edge 2
-        # This preserves CCW winding: edge 0 -> edge 1 -> edge 2
-        short_edge_first = edges[0]
-        short_edge_second = edges[2]
-    else:
-        # Edges 1 and 3 are short (ends), edges 0 and 2 are long (sides)
-        # Centerline goes from midpoint of edge 1 to midpoint of edge 3
-        short_edge_first = edges[1]
-        short_edge_second = edges[3]
-    
-    # Midpoint of first short edge (start of centerline)
-    mid1 = Vector2D(
-        (short_edge_first[2].x + short_edge_first[3].x) / 2,
-        (short_edge_first[2].y + short_edge_first[3].y) / 2,
-    )
-    # Midpoint of second short edge (end of centerline)
-    mid2 = Vector2D(
-        (short_edge_second[2].x + short_edge_second[3].x) / 2,
-        (short_edge_second[2].y + short_edge_second[3].y) / 2,
-    )
-    
-    return Segment(start=mid1, end=mid2)
-
-
 # =============================================================================
 # VISIBILITY ALGORITHM
 # =============================================================================

@@ -1,5 +1,7 @@
 """PDF renderer - WeasyPrint wrapper."""
 
+from __future__ import annotations
+
 from pathlib import Path
 from io import BytesIO
 
@@ -7,32 +9,13 @@ from weasyprint import HTML, CSS
 
 
 class PDFRenderer:
-    """
-    PDF renderer using WeasyPrint.
-    
-    Converts HTML string to PDF bytes.
-    """
+    """PDF renderer using WeasyPrint."""
     
     def __init__(self, base_url: str | Path | None = None):
-        """
-        Initialize PDF renderer.
-        
-        Args:
-            base_url: Base URL for resolving relative paths in HTML
-        """
         self.base_url = str(base_url) if base_url else None
     
     def render(self, html_content: str, extra_css: str | None = None) -> bytes:
-        """
-        Render HTML to PDF.
-        
-        Args:
-            html_content: Complete HTML document string
-            extra_css: Optional additional CSS to apply
-            
-        Returns:
-            PDF file as bytes
-        """
+        """Render HTML to PDF bytes."""
         # Create HTML document
         html = HTML(string=html_content, base_url=self.base_url)
         
@@ -52,14 +35,7 @@ class PDFRenderer:
         output_path: Path | str,
         extra_css: str | None = None,
     ) -> None:
-        """
-        Render HTML to PDF file.
-        
-        Args:
-            html_content: Complete HTML document string
-            output_path: Path to save PDF file
-            extra_css: Optional additional CSS to apply
-        """
+        """Render HTML to PDF file."""
         pdf_bytes = self.render(html_content, extra_css)
         
         output_path = Path(output_path)

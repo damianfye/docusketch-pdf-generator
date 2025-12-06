@@ -1,32 +1,19 @@
-"""Table renderer - converts TableData to HTML table."""
+"""Table renderer."""
+
+from __future__ import annotations
 
 from renderers.base import RendererBase
 from models.table import TableData
 
 
 class TableRenderer(RendererBase):
-    """
-    Renders TableData as an HTML table.
-    
-    Produces a styled HTML table from measurement data.
-    """
+    """Renders TableData as an HTML table."""
     
     def __init__(self, data: TableData):
-        """
-        Initialize table renderer.
-        
-        Args:
-            data: TableData with rows and totals
-        """
         self.data = data
     
     def render(self) -> str:
-        """
-        Generate HTML table string.
-        
-        Returns:
-            HTML table string
-        """
+        """Generate HTML table string."""
         rows_html = []
         
         # Header row

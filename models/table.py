@@ -1,4 +1,6 @@
-"""Table data models for measurement data."""
+"""Table data models."""
+
+from __future__ import annotations
 
 from pydantic import BaseModel
 
@@ -13,23 +15,15 @@ class TableRow(BaseModel):
 
 
 class TableData(BaseModel):
-    """
-    Complete table data with rows and totals.
-    
-    Attributes:
-        rows: List of measurement rows
-        total_count: Total number of windows/doors
-        total_area: Sum of all areas
-        total_perimeter: Sum of all perimeters
-    """
+    """Table data with rows and computed totals."""
     rows: list[TableRow]
     total_count: int
     total_area: float
     total_perimeter: float
     
     @classmethod
-    def from_rows(cls, rows: list[TableRow]) -> "TableData":
-        """Create TableData with computed totals from rows."""
+    def from_rows(cls, rows: list[TableRow]) -> TableData:
+        """Create with computed totals."""
         return cls(
             rows=rows,
             total_count=len(rows),

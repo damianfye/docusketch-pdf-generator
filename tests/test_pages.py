@@ -2,9 +2,9 @@
 
 import pytest
 
-from pages.registry import PageRegistry
-from pages.base import PageBase
-from pages.windows_doors import WindowsDoorsPage
+from page_types.registry import PageRegistry
+from page_types.base import PageBase
+from page_types.windows_doors import WindowsDoorsPage
 from models.document import PageConfig, PageMetadata
 from models.table import TableData, TableRow
 from models.primitives import Point, WallPolygon

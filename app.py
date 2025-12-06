@@ -15,6 +15,7 @@ from models.primitives import Point, WallPolygon
 from models.table import TableRow, TableData
 from models.document import PageConfig, PageMetadata, DocumentConfig
 from core.generator import DocumentGenerator
+from generators.visibility import ViewDirection
 
 
 # === Configuration ===
@@ -30,9 +31,13 @@ def load_default_table() -> pd.DataFrame:
     """Load default table data from CSV."""
     csv_path = DATA_DIR / "table_data.csv"
     if csv_path.exists():
-        df = pd.read_csv(csv_path, index_col=0)
+        df = pd.read_csv(csv_path)
+        # Drop unnamed index column if present
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
         # Remove the Total row for editing (we'll compute it)
         df = df[df["Wall"] != "Total"]
+        # Reset index to simple integers (not editable)
+        df = df.reset_index(drop=True)
         return df
     
     # Fallback default
@@ -123,6 +128,7 @@ def build_document_config(
     doc_id: str,
     address: str,
     section_name: str,
+    view_direction: ViewDirection,
     table_df: pd.DataFrame,
     wall_projection_svg: str,
     panorama_bytes: bytes,
@@ -141,6 +147,7 @@ def build_document_config(
                 ),
                 table_data=dataframe_to_table_data(table_df),
                 walls=walls,
+                view_direction=view_direction,
                 wall_projection_svg=wall_projection_svg,
                 panorama_image=panorama_bytes,
             )
@@ -166,7 +173,22 @@ with st.sidebar:
     
     doc_id = st.text_input("Document ID", value="Test")
     address = st.text_input("Address", value="127 Example St, Sample City, CA 90210")
-    section_name = st.text_input("Section Name", value="Back")
+    
+    # View direction dropdown
+    view_options = {
+        "Back": ViewDirection.BACK,
+        "Front": ViewDirection.FRONT,
+        "Left": ViewDirection.LEFT,
+        "Right": ViewDirection.RIGHT,
+    }
+    selected_view = st.selectbox(
+        "View Direction",
+        options=list(view_options.keys()),
+        index=0,
+        help="Which side of the building to highlight in the floor plan"
+    )
+    view_direction = view_options[selected_view]
+    section_name = selected_view  # Use view name as section name
     
     st.divider()
     
@@ -193,9 +215,10 @@ with st.sidebar:
 st.header("📊 Table Data")
 st.caption("Edit the measurements below. Changes will be reflected in the generated PDF.")
 
-# Load or use session state
-if "table_df" not in st.session_state:
+# Load or use session state (reset if structure changed)
+if "table_df" not in st.session_state or "table_version" not in st.session_state:
     st.session_state.table_df = load_default_table()
+    st.session_state.table_version = 2  # Bump to force reload
 
 edited_df = st.data_editor(
     st.session_state.table_df,
@@ -207,6 +230,7 @@ edited_df = st.data_editor(
         "Size (WxH), ft": st.column_config.TextColumn("Size (WxH), ft"),
     },
     num_rows="dynamic",
+    hide_index=True,
     width="stretch",
     key="table_editor",
 )
@@ -266,6 +290,7 @@ if generate_clicked:
                 doc_id=doc_id,
                 address=address,
                 section_name=section_name,
+                view_direction=view_direction,
                 table_df=edited_df,
                 wall_projection_svg=wall_projection_svg,
                 panorama_bytes=panorama_bytes,

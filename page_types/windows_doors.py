@@ -1,7 +1,9 @@
-"""Windows and Doors page type - the main page for this task."""
+"""Windows and Doors page type."""
 
-from pages.base import PageBase
-from pages.registry import PageRegistry
+from __future__ import annotations
+
+from page_types.base import PageBase
+from page_types.registry import PageRegistry
 from models.document import PageConfig
 from renderers.svg import SVGRenderer
 from renderers.image import ImageRenderer
@@ -68,6 +70,7 @@ class WindowsDoorsPage(PageBase):
         if config.walls:
             floor_plan_svg = FloorPlanGenerator(
                 walls=config.walls,
+                view_direction=config.view_direction,
                 width=300,
                 height=220,
             ).generate()

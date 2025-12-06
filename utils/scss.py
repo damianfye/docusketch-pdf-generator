@@ -1,20 +1,14 @@
 """SCSS compilation utilities."""
 
+from __future__ import annotations
+
 from pathlib import Path
 
 import sass
 
 
 def compile_scss(scss_path: Path | str) -> str:
-    """
-    Compile SCSS file to CSS string.
-    
-    Args:
-        scss_path: Path to the main SCSS file
-        
-    Returns:
-        Compiled CSS string
-    """
+    """Compile SCSS file to CSS string."""
     scss_path = Path(scss_path)
     
     if not scss_path.exists():
@@ -31,16 +25,7 @@ def compile_scss(scss_path: Path | str) -> str:
 
 
 def compile_scss_string(scss_content: str, include_paths: list[str] | None = None) -> str:
-    """
-    Compile SCSS string to CSS.
-    
-    Args:
-        scss_content: SCSS content as string
-        include_paths: Optional list of paths for @import resolution
-        
-    Returns:
-        Compiled CSS string
-    """
+    """Compile SCSS string to CSS."""
     css = sass.compile(
         string=scss_content,
         include_paths=include_paths or [],

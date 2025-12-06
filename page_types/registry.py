@@ -1,8 +1,10 @@
-"""Page registry - plugin registration for page types."""
+"""Page registry."""
+
+from __future__ import annotations
 
 from typing import Type
 
-from pages.base import PageBase
+from page_types.base import PageBase
 
 
 class PageRegistry:
@@ -23,15 +25,7 @@ class PageRegistry:
     
     @classmethod
     def register(cls, page_type: str):
-        """
-        Decorator to register a page type.
-        
-        Args:
-            page_type: Unique identifier for this page type
-            
-        Returns:
-            Decorator function
-        """
+        """Decorator to register a page type."""
         def decorator(page_class: Type[PageBase]) -> Type[PageBase]:
             cls._pages[page_type] = page_class
             return page_class
@@ -39,18 +33,7 @@ class PageRegistry:
     
     @classmethod
     def get(cls, page_type: str) -> Type[PageBase]:
-        """
-        Get page class by type name.
-        
-        Args:
-            page_type: Registered page type identifier
-            
-        Returns:
-            Page class
-            
-        Raises:
-            ValueError: If page type is not registered
-        """
+        """Get page class by type name."""
         if page_type not in cls._pages:
             available = ", ".join(cls._pages.keys()) or "none"
             raise ValueError(

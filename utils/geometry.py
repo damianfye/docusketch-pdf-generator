@@ -1,4 +1,6 @@
-"""Geometry utilities for coordinate transformations."""
+"""Geometry utilities."""
+
+from __future__ import annotations
 
 from models.primitives import Point, WallPolygon
 
@@ -9,18 +11,7 @@ def normalize_coordinates(
     target_height: float,
     padding: float = 10.0,
 ) -> list[WallPolygon]:
-    """
-    Scale and translate wall coordinates to fit within target viewport.
-    
-    Args:
-        walls: List of wall polygons with original coordinates
-        target_width: Target viewport width
-        target_height: Target viewport height
-        padding: Padding around the edges
-        
-    Returns:
-        New list of WallPolygon with normalized coordinates
-    """
+    """Scale and translate wall coordinates to fit within target viewport."""
     if not walls:
         return []
     

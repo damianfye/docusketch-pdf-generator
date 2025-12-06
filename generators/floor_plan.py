@@ -15,17 +15,7 @@ from generators.visibility import (
 
 
 class FloorPlanGenerator:
-    """
-    Generates 2D floor plan SVG from wall polygons.
-    
-    Uses visibility algorithm to determine which walls face
-    the specified viewing direction (highlighted in blue).
-    
-    The generator:
-    1. Classifies walls by visibility from viewing direction
-    2. Normalizes coordinates to fit the viewport
-    3. Generates SVG with appropriate colors
-    """
+    """Generates 2D floor plan SVG from wall polygons."""
     
     # Default colors matching DocuSketch style - NO STROKE (walls are thin)
     HIGHLIGHT_COLOR = "#61A5D8"  # Blue for visible/back walls
@@ -40,17 +30,6 @@ class FloorPlanGenerator:
         highlight_color: str | None = None,
         default_color: str | None = None,
     ):
-        """
-        Initialize floor plan generator.
-        
-        Args:
-            walls: List of wall polygons from wall_data.json
-            view_direction: Which side to highlight (back/front/left/right)
-            width: SVG viewport width
-            height: SVG viewport height
-            highlight_color: Color for visible walls (default: blue)
-            default_color: Color for other walls (default: black)
-        """
         self.walls = walls
         self.view_direction = view_direction
         self.width = width
@@ -59,17 +38,7 @@ class FloorPlanGenerator:
         self.default_color = default_color or self.DEFAULT_COLOR
     
     def generate(self) -> str:
-        """
-        Generate SVG string for the floor plan.
-        
-        Steps:
-        1. Classify walls by visibility from viewing direction
-        2. Normalize coordinates to fit viewport
-        3. Generate SVG polygons with appropriate colors
-        
-        Returns:
-            SVG string ready for embedding in HTML
-        """
+        """Generate SVG string for the floor plan."""
         if not self.walls:
             return self._empty_svg()
         

@@ -1,9 +1,11 @@
 """Document generator - main orchestrator."""
 
+from __future__ import annotations
+
 from pathlib import Path
 
 from models.document import DocumentConfig, PageConfig
-from pages.registry import PageRegistry
+from page_types import PageRegistry
 from core.template_engine import TemplateEngine
 from core.pdf_renderer import PDFRenderer
 
@@ -24,13 +26,6 @@ class DocumentGenerator:
         templates_dir: Path | str | None = None,
         styles_dir: Path | str | None = None,
     ):
-        """
-        Initialize document generator.
-        
-        Args:
-            templates_dir: Path to templates (default: ./templates)
-            styles_dir: Path to SCSS styles (default: ./styles)
-        """
         # Default paths relative to project root
         project_root = Path(__file__).parent.parent
         
@@ -42,15 +37,7 @@ class DocumentGenerator:
         self.pdf_renderer = PDFRenderer(base_url=str(project_root))
     
     def generate(self, config: DocumentConfig) -> bytes:
-        """
-        Generate PDF from document configuration.
-        
-        Args:
-            config: Document configuration with pages and assets
-            
-        Returns:
-            PDF file as bytes
-        """
+        """Generate PDF from document configuration."""
         # Render all pages to HTML
         pages_html = []
         
@@ -97,18 +84,7 @@ class DocumentGenerator:
         return self.template_engine.render(page.template_name, context)
     
     def _combine_pages(self, pages_html: list[str]) -> str:
-        """
-        Combine multiple page HTMLs into single document.
-        
-        For now, just returns the first page (single page task).
-        For multi-page, would add page breaks.
-        
-        Args:
-            pages_html: List of rendered page HTML strings
-            
-        Returns:
-            Combined HTML document
-        """
+        """Combine multiple page HTMLs into single document."""
         if not pages_html:
             return "<html><body>No pages</body></html>"
         

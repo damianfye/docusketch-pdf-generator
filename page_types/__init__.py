@@ -1,8 +1,8 @@
 """Page types - plugin architecture for different page layouts."""
 
-from pages.base import PageBase
-from pages.registry import PageRegistry
-from pages.windows_doors import WindowsDoorsPage
+from page_types.base import PageBase
+from page_types.registry import PageRegistry
+from page_types.windows_doors import WindowsDoorsPage
 
 __all__ = [
     "PageBase",
